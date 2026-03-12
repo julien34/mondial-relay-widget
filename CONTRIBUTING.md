@@ -1,38 +1,38 @@
 # Contributing to Mondial Relay Widget
 
-Merci pour votre intérêt dans ce projet ! Voici comment contribuer.
+Thank you for your interest in this project! Here's how to contribute.
 
 ## 🐛 Report a Bug
 
-### Avant de créer un issue
+### Before creating an issue
 
-- Vérifiez qu'il ne soit pas déjà reporté
-- Vérifiez que vous utilisez la dernière version
-- Collectez les informations utiles:
-  - Version de la lib
-  - Code qui reproduit le bug
-  - Message d'erreur exact
-  - Navigateur et version
+- Check if it's not already reported
+- Verify you're using the latest version
+- Collect useful information:
+  - Library version
+  - Code that reproduces the bug
+  - Exact error message
+  - Browser and version
 
-### Créer un issue
+### Create an issue
 
-Utilisez le format:
+Use the format:
 
 ```markdown
 ## Description
-Courte description du bug.
+Brief description of the bug.
 
 ## Reproduction
 ```js
-// Code qui reproduit le bug
+// Code that reproduces the bug
 const widget = await MondialRelay.init('#container', { ... });
 ```
 
 ## Expected behavior
-Ce qui devrait se passer.
+What should happen.
 
 ## Actual behavior
-Ce qui se passe réellement.
+What actually happens.
 
 ## Environment
 - lib version: 0.1.0
@@ -42,29 +42,29 @@ Ce qui se passe réellement.
 
 ---
 
-## ✨ Suggérer une Feature
+## ✨ Suggest a Feature
 
-Avant de proposer, vérifiez:
+Before proposing, verify:
 
-- Ce n'est pas déjà planifié (voir CHANGELOG.md)
-- C'est compatible avec l'API actuelle
-- Ça apporte de la valeur à la majorité des utilisateurs
+- It's not already planned (see CHANGELOG.md)
+- It's compatible with the current API
+- It brings value to most users
 
-### Format de suggestion
+### Suggestion format
 
 ```markdown
 ## Description
-Description claire de la feature.
+Clear description of the feature.
 
 ## Motivation
-Pourquoi cette feature est nécessaire ?
+Why is this feature necessary?
 
 ## Example
-Comment ça serait utilisé ?
+How would it be used?
 
 ```typescript
 const widget = await MondialRelay.init('#container', {
-  // nouvelle option
+  // new option
   myNewFeature: true,
 });
 ```
@@ -72,29 +72,29 @@ const widget = await MondialRelay.init('#container', {
 
 ---
 
-## 🔧 Développement
+## 🔧 Development
 
 ### Setup
 
 ```bash
-# Clone et setup
+# Clone and setup
 git clone https://github.com/yourusername/mondial-relay-widget.git
 cd mondial-relay-widget
 yarn install
 
-# Vérifier que tout fonctionne
+# Check that everything works
 yarn lint
 yarn test
 yarn build
 ```
 
-### Structure du code
+### Code structure
 
 ```
 src/
-  ├─ mondial-relay.ts       # Lib principale
-  │  ├─ Types MR bruts
-  │  ├─ Types publics
+  ├─ mondial-relay.ts       # Main library
+  │  ├─ Raw MR types
+  │  ├─ Public types
   │  ├─ Loaders (loadScript, loadCss, loadDeps)
   │  ├─ Helpers (hidden inputs)
   │  ├─ normalizeOptions()
@@ -102,49 +102,49 @@ src/
   └─ mondial-relay.test.ts  # Tests
 ```
 
-### Avant de modifier
+### Before modifying
 
-1. Créez une branche: `git checkout -b feature/ma-feature`
-2. Modifiez le code
-3. Testez: `yarn test`
-4. Vérifiez les types: `yarn lint`
-5. Buildez: `yarn build`
+1. Create a branch: `git checkout -b feature/my-feature`
+2. Modify the code
+3. Test: `yarn test`
+4. Check types: `yarn lint`
+5. Build: `yarn build`
 
 ### Code Style
 
 - TypeScript strict mode
-- Commentaires JSDoc pour l'API publique
-- Pas de `any` types
-- Imports organizés
+- JSDoc comments for public API
+- No `any` types
+- Organized imports
 
 ### Git Workflow
 
 ```bash
-# Créer une branche descriptive
+# Create a descriptive branch
 git checkout -b fix/jquery-loading-bug
-# ou
+# or
 git checkout -b feat/google-maps-support
 
-# Commits courts et clairs
+# Short and clear commits
 git commit -m "fix: handle jQuery load failure gracefully"
 
-# Push et créer un PR
+# Push and create a PR
 git push origin fix/jquery-loading-bug
 ```
 
 ### Commit messages
 
-Utiliser le format [Conventional Commits](https://www.conventionalcommits.org/):
+Use [Conventional Commits](https://www.conventionalcommits.org/) format:
 
 ```
-feat: add new feature (feature nouvelle)
-fix: fix bug (correction de bug)
-docs: update documentation (doc)
-test: add tests (ajout de tests)
-refactor: reorganize code (refactoring)
+feat: add new feature
+fix: fix a bug
+docs: update documentation
+test: add tests
+refactor: reorganize code
 ```
 
-Exemples:
+Examples:
 
 ```
 feat: add support for custom CSS classes
@@ -156,25 +156,25 @@ refactor: simplify options normalization
 
 ---
 
-## 📝 Modifier la Documentation
+## 📝 Modify Documentation
 
-Si vous corrigez la doc:
+If you fix documentation:
 
-1. README.md - Guide principal
+1. README.md - Main guide
 2. DEVELOPMENT.md - Architecture
-3. EXAMPLES.ts - Exemples de code
-4. JSDoc dans le code
+3. EXAMPLES.ts - Code examples
+4. JSDoc in the code
 
-Assurez-vous que:
-- Les exemples sont corrects et testés
-- Les liens sont valides
-- Le formatage est cohérent
+Make sure:
+- Examples are correct and tested
+- Links are valid
+- Formatting is consistent
 
 ---
 
-## 🧪 Ajouter des Tests
+## 🧪 Add Tests
 
-Les tests utilisent [Vitest](https://vitest.dev/).
+Tests use [Vitest](https://vitest.dev/).
 
 ### Format
 
@@ -189,58 +189,58 @@ describe('Feature name', () => {
 });
 ```
 
-### Principes
+### Principles
 
-- Un test = une responsabilité
-- Noms descriptifs
-- Couvrir happy path + edge cases
-- Mock les dépendances externes
+- One test = one responsibility
+- Descriptive names
+- Cover happy path + edge cases
+- Mock external dependencies
 
-### Lancer les tests
+### Run tests
 
 ```bash
-yarn test              # Tous les tests
-yarn test --watch      # Mode watch
-yarn test --coverage   # Couverture
+yarn test              # All tests
+yarn test --watch      # Watch mode
+yarn test --coverage   # Coverage
 ```
 
 ---
 
-## 🎯 Types de Contributions Acceptées
+## 🎯 Types of Accepted Contributions
 
 ✅ Bug fixes  
-✅ Améliorations de performance  
-✅ Amélioration des types TypeScript  
-✅ Meilleure documentation  
-✅ Exemples supplémentaires  
-✅ Amélioration de l'accessibilité  
-✅ Support pour plus de navigateurs  
+✅ Performance improvements  
+✅ TypeScript type improvements  
+✅ Better documentation  
+✅ Additional examples  
+✅ Accessibility improvements  
+✅ Support for more browsers  
 
 ---
 
-## ⚠️ Ce qui ne sera pas accepté
+## ⚠️ What will not be accepted
 
-❌ Modifications qui cassent l'API  
-❌ Dépendances externes non essentielles  
-❌ Code qui diminue la couverture de tests  
-❌ Suppression de fonctionnalités existantes  
+❌ Modifications that break the API  
+❌ Non-essential external dependencies  
+❌ Code that reduces test coverage  
+❌ Removal of existing features  
 
 ---
 
 ## 📦 Pull Request Process
 
-1. **Update branches**: Mergez master dans votre branche
-2. **Tests**: `yarn test` doit passer
-3. **Types**: `yarn lint` doit passer
-4. **Build**: `yarn build` doit réussir
-5. **Description**: Décrivez clairement les changements
-6. **Linked issue**: Référencez l'issue si applicable
+1. **Update branches**: Merge master into your branch
+2. **Tests**: `yarn test` must pass
+3. **Types**: `yarn lint` must pass
+4. **Build**: `yarn build` must succeed
+5. **Description**: Clearly describe the changes
+6. **Linked issue**: Reference the issue if applicable
 
-### Template PR
+### PR Template
 
 ```markdown
 ## Description
-Brève description des changements.
+Brief description of the changes.
 
 ## Type of Change
 - [ ] Bug fix
@@ -251,29 +251,29 @@ Brève description des changements.
 Closes #123
 
 ## Testing
-Comment tester le changement ?
+How to test the change?
 
 ## Checklist
-- [ ] Mon code suit le style du projet
-- [ ] J'ai testé mon code
-- [ ] J'ai mis à jour la documentation si nécessaire
+- [ ] My code follows the project style
+- [ ] I have tested my code
+- [ ] I have updated documentation if necessary
 - [ ] Tests and types pass (`yarn test && yarn lint`)
 ```
 
 ---
 
-## 📋 Checklist pour les Mainteneurs
+## 📋 Maintainers Checklist
 
-- [ ] Tests passent
-- [ ] Types TypeScript corrects
-- [ ] Documentation à jour
-- [ ] CHANGELOG.md mis à jour
-- [ ] Code bien commenté
-- [ ] Pas de breaking changes non documentés
+- [ ] Tests pass
+- [ ] TypeScript types correct
+- [ ] Documentation updated
+- [ ] CHANGELOG.md updated
+- [ ] Code well commented
+- [ ] No undocumented breaking changes
 
 ---
 
-## 🎓 Ressources
+## 🎓 Resources
 
 - [Conventional Commits](https://www.conventionalcommits.org/)
 - [Semantic Versioning](https://semver.org/)
@@ -282,19 +282,19 @@ Comment tester le changement ?
 
 ---
 
-## 📞 Questions ?
+## 📞 Questions?
 
-- Ouvrez une **Discussion** sur GitHub
-- Consultez la [Documentation](./README.md)
-- Vérifiez les [Examples](./EXAMPLES.ts)
-
----
-
-## ✨ Merci !
-
-Votre contribution rend ce projet meilleur pour tout le monde ! 🙏
+- Open a **Discussion** on GitHub
+- Check the [Documentation](./README.md)
+- See the [Examples](./EXAMPLES.ts)
 
 ---
 
-*Code of Conduct: Soyez respectueux et bienveillant envers tous les contributeurs.*
+## ✨ Thank You!
+
+Your contribution makes this project better for everyone! 🙏
+
+---
+
+*Code of Conduct: Be respectful and kind to all contributors.*
 
