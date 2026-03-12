@@ -170,7 +170,7 @@ export interface MondialRelayOptions {
 
     /**
      * Enable responsive layout.
-     * @default false
+     * @default true
      */
     responsive?: boolean;
 
@@ -255,9 +255,10 @@ export interface WidgetInstance {
 // ─── Dependency URLs ──────────────────────────────────────────────────────────
 
 const DEPS = {
-    jquery:     'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js',
-    leafletJs:  'https://unpkg.com/leaflet/dist/leaflet.js',
-    leafletCss: 'https://unpkg.com/leaflet/dist/leaflet.css',
+    jquery:       'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js',
+    leafletJs:    'https://unpkg.com/leaflet/dist/leaflet.js',
+    leafletCss:   'https://unpkg.com/leaflet/dist/leaflet.css',
+    mrPlugin:     'https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js',
 } as const;
 
 // ─── Dependency loaders ───────────────────────────────────────────────────────
@@ -290,6 +291,9 @@ async function loadDeps(useGoogleMaps: boolean, googleMapsKey?: string): Promise
     } else {
         await loadScript(DEPS.leafletJs);
     }
+
+    // Load the Mondial Relay plugin (must be loaded after jQuery)
+    await loadScript(DEPS.mrPlugin);
 }
 
 // ─── Hidden input helpers ─────────────────────────────────────────────────────
@@ -341,7 +345,7 @@ function normalizeOptions(o: MondialRelayOptions): MRPluginOptions {
         ShowResultsOnMap          : o.showMap           !== false,
         DisplayMapInfo            : o.mapInfo           !== false,
         MapScrollWheel            : o.scrollWheel       ?? false,
-        Responsive                : o.responsive        ?? false,
+        Responsive                : o.responsive        ?? true,
         EnableGeolocalisatedSearch: o.geolocation       ?? false,
         EnableGmap                : o.useGoogleMaps     ?? false,
         CSS                       : o.customCss         ? '0' : '1',
