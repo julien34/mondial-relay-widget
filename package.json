@@ -1,14 +1,14 @@
 {
-  "name": "mondial-relay",
+  "name": "mondial-relay-widget",
   "version": "0.1.0",
   "description": "Lightweight TypeScript wrapper for the Mondial Relay parcel shop picker widget",
   "author": "Your Name",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/mondial-relay-widget"
+    "url": "https://github.com/julien34/mondial-relay-widget"
   },
-  "homepage": "https://github.com/yourusername/mondial-relay-widget",
+  "homepage": "https://github.com/julien34/mondial-relay-widget",
   "keywords": [
     "mondial-relay",
     "widget",

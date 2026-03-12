@@ -1961,9 +1961,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mondial-relay@workspace:.":
+"mondial-relay-widget@workspace:.":
   version: 0.0.0-use.local
-  resolution: "mondial-relay@workspace:."
+  resolution: "mondial-relay-widget@workspace:."
   dependencies:
     "@types/jquery": "npm:^3.5.0"
     "@vitest/ui": "npm:^1.0.0"
