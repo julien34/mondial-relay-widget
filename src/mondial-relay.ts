@@ -258,7 +258,6 @@ const DEPS = {
     jquery:     'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js',
     leafletJs:  'https://unpkg.com/leaflet/dist/leaflet.js',
     leafletCss: 'https://unpkg.com/leaflet/dist/leaflet.css',
-    mrWidget:   'https://api.mondialrelay.com/Web_Services/web/MR_ParcelShopPicker.asp',
 } as const;
 
 // ─── Dependency loaders ───────────────────────────────────────────────────────
@@ -291,8 +290,6 @@ async function loadDeps(useGoogleMaps: boolean, googleMapsKey?: string): Promise
     } else {
         await loadScript(DEPS.leafletJs);
     }
-
-    await loadScript(DEPS.mrWidget);
 }
 
 // ─── Hidden input helpers ─────────────────────────────────────────────────────
