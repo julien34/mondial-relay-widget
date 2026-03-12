@@ -1,0 +1,51 @@
+{
+  "name": "mondial-relay",
+  "version": "0.1.0",
+  "description": "Lightweight TypeScript wrapper for the Mondial Relay parcel shop picker widget",
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/mondial-relay-widget"
+  },
+  "homepage": "https://github.com/yourusername/mondial-relay-widget",
+  "keywords": [
+    "mondial-relay",
+    "widget",
+    "parcel",
+    "relay-point",
+    "typescript",
+    "javascript",
+    "react",
+    "vue",
+    "angular"
+  ],
+  "main": "dist/mondial-relay.js",
+  "module": "dist/mondial-relay.mjs",
+  "types": "dist/mondial-relay.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/mondial-relay.mjs",
+      "require": "./dist/mondial-relay.js",
+      "types": "./dist/mondial-relay.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup src/mondial-relay.ts --format cjs,esm --dts",
+    "test": "vitest",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm run lint"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.0",
+    "jsdom": "^24.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  }
+}
