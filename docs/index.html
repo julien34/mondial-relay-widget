@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mondial Relay Widget - Démo Interactive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            color: white;
+            text-align: center;
+            margin-bottom: 50px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            margin-bottom: 5px;
+        }
+
+        .header .version {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.6s ease-out;
+            overflow: hidden;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 1.6em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            min-width: 130px;
+            padding: 14px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        button.secondary {
+            background: #f5f5f5;
+            color: #333;
+            border: 2px solid #e0e0e0;
+        }
+
+        button.secondary:hover {
+            background: #efefef;
+            border-color: #d0d0d0;
+        }
+
+        button.danger {
+            background: #ef4444;
+        }
+
+        button.danger:hover {
+            background: #dc2626;
+        }
+
+        #widget-container {
+            border: 3px dashed #667eea;
+            border-radius: 12px;
+            min-height: 500px;
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1.1em;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        #widget-container.loaded {
+            border-color: #667eea;
+            background: white;
+        }
+
+        .status-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .status-box.success {
+            background: #f0fdf4;
+            border-left-color: #22c55e;
+        }
+
+        .status-box.error {
+            background: #fef2f2;
+            border-left-color: #ef4444;
+        }
+
+        .status-box strong {
+            color: #667eea;
+        }
+
+        .status-box.success strong {
+            color: #22c55e;
+        }
+
+        .status-box.error strong {
+            color: #ef4444;
+        }
+
+        .selected-relay {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 2px solid #22c55e;
+            padding: 25px;
+            margin-top: 20px;
+            border-radius: 12px;
+            display: none;
+            animation: slideDown 0.4s ease-out;
+        }
+
+        .selected-relay.active {
+            display: block;
+        }
+
+        .selected-relay h3 {
+            color: #22c55e;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .selected-relay p {
+            color: #333;
+            margin: 6px 0;
+            line-height: 1.6;
+        }
+
+        .relay-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #dcfce7;
+        }
+
+        .relay-info-item {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        .relay-info-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 0.85em;
+            text-transform: uppercase;
+        }
+
+        .relay-info-value {
+            color: #333;
+            margin-top: 4px;
+            font-size: 1.1em;
+        }
+
+        .info-section {
+            background: #f9fafb;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 30px;
+        }
+
+        .info-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .info-section ol {
+            color: #666;
+            line-height: 1.8;
+            margin-left: 20px;
+        }
+
+        .info-section li {
+            margin-bottom: 12px;
+        }
+
+        .info-section strong {
+            color: #333;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .relay-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .card {
+                padding: 25px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+
+        .badge.beta {
+            background: #f59e0b;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 Mondial Relay Widget <span class="badge beta">démo</span></h1>
+            <p>Intégration simple du sélecteur de point relais</p>
+            <p class="version">v0.1.0</p>
+        </div>
+
+        <div class="demo-grid">
+            <!-- Configuration -->
+            <div class="card">
+                <h2>⚙️ Configuration</h2>
+
+                <div class="form-group">
+                    <label for="brand-input">Code Brand (8 caractères)*</label>
+                    <input
+                        type="text"
+                        id="brand-input"
+                        maxlength="8"
+                        placeholder="BDTEST  "
+                        value="BDTEST  "
+                    />
+                    <div class="status-box" style="margin-top: 10px;">
+                        <small><strong>💡 Conseil:</strong> Utilisez 'BDTEST  ' pour tester (avec 2 espaces)</small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="postcode-input">Code postal initial (optionnel)</label>
+                    <input
+                        type="text"
+                        id="postcode-input"
+                        placeholder="ex: 75001"
+                        value="75001"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="country-select">Pays</label>
+                    <select id="country-select">
+                        <option value="FR">🇫🇷 France</option>
+                        <option value="ES">🇪🇸 Espagne</option>
+                        <option value="BE">🇧🇪 Belgique</option>
+                        <option value="IT">🇮🇹 Italie</option>
+                        <option value="DE">🇩🇪 Allemagne</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="delivery-select">Mode de livraison</label>
+                    <select id="delivery-select">
+                        <option value="24R">24R - Standard</option>
+                        <option value="24L">24L - XL</option>
+                        <option value="24X">24X - XXL</option>
+                        <option value="DRI">DRI - Drive</option>
+                    </select>
+                </div>
+
+                <h3 style="margin: 30px 0 20px; color: #333;">🎮 Actions</h3>
+                <div class="button-group">
+                    <button id="init-btn">
+                        <span>▶️</span> Initialiser
+                    </button>
+                    <button id="destroy-btn" class="secondary danger" disabled>
+                        <span>⏹️</span> Détruire
+                    </button>
+                </div>
+
+                <div class="button-group">
+                    <button id="search-btn" class="secondary" disabled>
+                        <span>🔍</span> Rechercher
+                    </button>
+                    <button id="update-btn" class="secondary" disabled>
+                        <span>🔄</span> Mettre à jour
+                    </button>
+                </div>
+
+                <div id="selected-relay" class="selected-relay">
+                    <h3>✅ Point Relais sélectionné</h3>
+                    <p id="selected-name"></p>
+                    <p id="selected-address"></p>
+                    <p id="selected-city"></p>
+                    <div class="relay-info">
+                        <div class="relay-info-item">
+                            <div class="relay-info-label">ID</div>
+                            <div class="relay-info-value" id="selected-id">-</div>
+                        </div>
+                        <div class="relay-info-item">
+                            <div class="relay-info-label">Pays</div>
+                            <div class="relay-info-value" id="selected-country">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Widget -->
+            <div class="card">
+                <h2>📍 Widget</h2>
+                <div id="widget-container">
+                    <p>👈 Cliquez sur "Initialiser" pour charger le sélecteur</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="card">
+            <div class="info-section">
+                <h3>📖 Comment ça marche ?</h3>
+                <ol>
+                    <li><strong>Configurez votre code brand</strong> - Obtenu auprès de Mondial Relay (utilisez 'BDTEST  ' pour tester)</li>
+                    <li><strong>Cliquez sur "Initialiser"</strong> - Le sélecteur se charge dans le conteneur</li>
+                    <li><strong>Entrez un code postal ou utilisez la recherche</strong> - Le widget affiche les points relais disponibles</li>
+                    <li><strong>Sélectionnez un point relais</strong> - Votre sélection s'affiche automatiquement</li>
+                    <li><strong>Utilisez l'API</strong> - Recherchez, mettez à jour les paramètres ou rafraîchissez la carte</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chargement de la librairie depuis unpkg -->
+    <script src="https://unpkg.com/mondial-relay/dist/mondial-relay.js"></script>
+
+    <script>
+        const MondialRelay = window['mondial-relay']?.MondialRelay;
+        let widgetInstance = null;
+
+        // Éléments du DOM
+        const brandInput = document.getElementById('brand-input');
+        const postcodeInput = document.getElementById('postcode-input');
+        const countrySelect = document.getElementById('country-select');
+        const deliverySelect = document.getElementById('delivery-select');
+        const initBtn = document.getElementById('init-btn');
+        const destroyBtn = document.getElementById('destroy-btn');
+        const searchBtn = document.getElementById('search-btn');
+        const updateBtn = document.getElementById('update-btn');
+        const container = document.getElementById('widget-container');
+        const selectedRelay = document.getElementById('selected-relay');
+
+        // Vérifier que la librairie est chargée
+        if (!MondialRelay) {
+            container.innerHTML = `
+                <div class="status-box error">
+                    <strong>❌ Erreur:</strong> Impossible de charger la librairie Mondial Relay.
+                    Vérifiez votre connexion internet.
+                </div>
+            `;
+            initBtn.disabled = true;
+        }
+
+        // Initialiser le widget
+        initBtn.addEventListener('click', async () => {
+            try {
+                initBtn.disabled = true;
+                initBtn.innerHTML = '<span class="spinner"></span> Chargement...';
+
+                const brand = brandInput.value.padEnd(8, ' ').substring(0, 8);
+
+                widgetInstance = await MondialRelay.init(container, {
+                    brand: brand,
+                    country: countrySelect.value,
+                    postCode: postcodeInput.value || undefined,
+                    deliveryMode: deliverySelect.value,
+                    onSelect: (relay) => {
+                        selectedRelay.classList.add('active');
+                        document.getElementById('selected-name').textContent = `📍 ${relay.name}`;
+                        document.getElementById('selected-address').textContent = relay.address;
+                        document.getElementById('selected-city').textContent = `${relay.postCode} ${relay.city}, ${relay.country}`;
+                        document.getElementById('selected-id').textContent = relay.id;
+                        document.getElementById('selected-country').textContent = relay.country;
+                    },
+                    onSearchSuccess: (results) => {
+                        console.log(`✅ ${results.length} points relais trouvés`);
+                    },
+                    onNoResult: () => {
+                        console.log('❌ Aucun point relais trouvé');
+                        selectedRelay.classList.remove('active');
+                    },
+                });
+
+                container.classList.add('loaded');
+
+                // Activer les boutons
+                destroyBtn.disabled = false;
+                searchBtn.disabled = false;
+                updateBtn.disabled = false;
+
+                initBtn.innerHTML = '<span>▶️</span> Réinitialiser';
+                initBtn.disabled = false;
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="status-box error">
+                        <strong>❌ Erreur:</strong> ${error.message}
+                    </div>
+                `;
+                initBtn.innerHTML = '<span>▶️</span> Initialiser';
+                initBtn.disabled = false;
+            }
+        });
+
+        // Détruire le widget
+        destroyBtn.addEventListener('click', () => {
+            if (widgetInstance) {
+                widgetInstance.destroy();
+                widgetInstance = null;
+                container.classList.remove('loaded');
+                container.innerHTML = '<p>👈 Cliquez sur "Initialiser" pour charger le sélecteur</p>';
+                selectedRelay.classList.remove('active');
+
+                // Réinitialiser les boutons
+                destroyBtn.disabled = true;
+                searchBtn.disabled = true;
+                updateBtn.disabled = true;
+            }
+        });
+
+        // Rechercher
+        searchBtn.addEventListener('click', () => {
+            if (widgetInstance && postcodeInput.value) {
+                widgetInstance.search(postcodeInput.value, countrySelect.value);
+            }
+        });
+
+        // Mettre à jour les paramètres
+        updateBtn.addEventListener('click', () => {
+            if (widgetInstance) {
+                widgetInstance.setParams({
+                    deliveryMode: deliverySelect.value,
+                    country: countrySelect.value,
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
