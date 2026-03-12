@@ -253,6 +253,10 @@ widget.rebindMap();
 - [Mondial Relay Widget Documentation](https://storage.mondialrelay.fr/widget-v-411.pdf)
 - [JSFiddle Example](https://jsfiddle.net/MondialRelay/a9mxhow5/)
 
+## 🙏 Acknowledgements
+
+Special thanks to **GitHub Copilot** for extensive work on the library's core architecture, TypeScript typing system, comprehensive API design, and documentation.
+
 ## 📄 License
 
 MIT
