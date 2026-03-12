@@ -284,16 +284,28 @@ function loadCss(href: string): void {
 
 async function loadDeps(useGoogleMaps: boolean, googleMapsKey?: string): Promise<void> {
     loadCss(DEPS.leafletCss);
-    await loadScript(DEPS.jquery);
+
+    // Only load jQuery if not already available (e.g., for testing)
+    if (!window.jQuery) {
+        await loadScript(DEPS.jquery);
+    }
 
     if (useGoogleMaps && googleMapsKey) {
-        await loadScript(`https://maps.googleapis.com/maps/api/js?key=${googleMapsKey}`);
+        if (!(window as any).google?.maps) {
+            await loadScript(`https://maps.googleapis.com/maps/api/js?key=${googleMapsKey}`);
+        }
     } else {
-        await loadScript(DEPS.leafletJs);
+        if (!(window as any).L) {
+            await loadScript(DEPS.leafletJs);
+        }
     }
 
     // Load the Mondial Relay plugin (must be loaded after jQuery)
-    await loadScript(DEPS.mrPlugin);
+    // Skip if already loaded (for testing)
+    if (document.querySelector(`script[src="${DEPS.mrPlugin}"]`) === null &&
+        !document.body.querySelector(`[data-mr-plugin-loaded]`)) {
+        await loadScript(DEPS.mrPlugin);
+    }
 }
 
 // ─── Hidden input helpers ─────────────────────────────────────────────────────
