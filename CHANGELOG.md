@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2024-03-24
+
+### Added
+
+- **Multi-language support** - New optional `language` parameter to control the widget interface language
+  - Supports: English (en), Italian (it), Spanish (es), German (de), and French (fr)
+  - French is the default language when the parameter is omitted
+  - Automatically handles Mondial Relay API language detection for French
+
+### Changed
+
+- Enhanced API documentation to include language configuration examples
+- Updated README with language configuration guide and supported languages list
+
+### Notes
+
+- When `language` is set to 'fr' or left undefined, an empty string is sent to the Mondial Relay API, allowing automatic language detection
+- Use ISO 639-1 language codes for maximum compatibility
+
 ## [0.1.0] - 2024-03-12
 
 ### Added

@@ -8,6 +8,7 @@ A lightweight, fully typed TypeScript/JavaScript wrapper for the [Mondial Relay]
 - 📦 **Automatic dependency loading** - Loads jQuery, Leaflet, and the MR widget automatically
 - 🎨 **Full TypeScript support** - Fully typed, zero `any` types
 - 🗺️ **Multiple map engines** - Leaflet (default) or Google Maps
+- 🌐 **Multi-language support** - English, Italian, Spanish, German, and French
 - ⚡ **Lightweight** - Only ~6KB minified
 - 🧹 **Clean API** - Simple, intuitive interface
 
@@ -142,6 +143,7 @@ interface MondialRelayOptions {
   customCss?: boolean;              // Disable built-in CSS, default: false
   useGoogleMaps?: boolean;          // Use Google Maps instead of Leaflet
   googleMapsKey?: string;           // Google Maps API key
+  language?: string;                // ISO 639-1 language code (e.g., 'en', 'it', 'es', 'de')
 
   // Callbacks
   onSelect?: (relay: RelayPoint) => void;
@@ -216,6 +218,44 @@ widget.setParams({
   CustomParam: 'value',       // Any raw MR parameter
 });
 ```
+
+### Language Configuration
+
+Control the widget interface language using the `language` option. By default, the widget displays in French.
+
+```typescript
+// Display in English
+const widget = await MondialRelay.init('#picker', {
+  brand: 'MYCODE  ',
+  language: 'en',
+});
+
+// Display in Italian
+const widget = await MondialRelay.init('#picker', {
+  brand: 'MYCODE  ',
+  language: 'it',
+});
+
+// Display in Spanish
+const widget = await MondialRelay.init('#picker', {
+  brand: 'MYCODE  ',
+  language: 'es',
+});
+
+// Display in German
+const widget = await MondialRelay.init('#picker', {
+  brand: 'MYCODE  ',
+  language: 'de',
+});
+
+// Default to French (omit language parameter or use 'fr')
+const widget = await MondialRelay.init('#picker', {
+  brand: 'MYCODE  ',
+  language: 'fr', // or simply omit this parameter
+});
+```
+
+**Note:** Use ISO 639-1 language codes (e.g., 'en', 'it', 'es', 'de', 'fr'). When the language is set to 'fr' or left undefined, the widget sends an empty string to the Mondial Relay API, allowing it to determine the language automatically.
 
 ### Google Maps
 

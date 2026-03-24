@@ -50,6 +50,7 @@ interface MRPluginOptions {
     EnableGeolocalisatedSearch?: boolean;
     EnableGmap?: boolean;
     CSS?: '0' | '1';
+    WidgetLanguage?: string;
     OnParcelShopSelected?: (data: MRRawRelay) => void;
     OnSearchSuccess?: (data: MRRawSearchResult) => void;
     OnNoResultReturned?: () => void;
@@ -196,6 +197,15 @@ export interface MondialRelayOptions {
 
     /** Google Maps API key. Required when useGoogleMaps is true. */
     googleMapsKey?: string;
+
+    /**
+     * Widget language (ISO 639-1 language code, e.g., 'en', 'it', 'es', 'de').
+     * Controls the language of the widget interface.
+     * Note: For French ('fr') or when undefined, an empty string is sent to the API
+     * to allow Mondial Relay to determine the language automatically.
+     * @default undefined (French language)
+     */
+    language?: string;
 
     /**
      * Fired when the user selects a relay point.
@@ -361,6 +371,9 @@ function normalizeOptions(o: MondialRelayOptions): MRPluginOptions {
         EnableGeolocalisatedSearch: o.geolocation       ?? false,
         EnableGmap                : o.useGoogleMaps     ?? false,
         CSS                       : o.customCss         ? '0' : '1',
+        // For French language, we need to pass an empty string instead of 'fr'
+        // to let the API load the correct language by default
+        WidgetLanguage            : o.language === 'fr' || o.language === undefined ? '' : (o.language ?? ''),
     };
 
     if (o.onSelect) {
